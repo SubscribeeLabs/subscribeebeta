@@ -1,0 +1,11 @@
+{
+  "name": "subscribee",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.4.2",
+    "@openzeppelin/test-helpers": "^0.5.15",
+    "web3": "^1.7.0"
+  }
+}
