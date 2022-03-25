@@ -18,7 +18,6 @@ contract BeehiveV1 is Ownable {
     uint timeDeployed
   );
 
-
   event slugChanged(
     address contractAddress,
     uint timeDeployed,
@@ -44,14 +43,10 @@ contract BeehiveV1 is Ownable {
     }
   }
 
-  function getDeployFee() external view returns(uint) {
-    return Deployfee;
+  function setDeployFee(uint deployfee, uint slugfee) external onlyOwner{
+    Deployfee = deployfee;
+    Slugfee = slugfee;
   }
-
-  function setDeployFee(uint fee) external onlyOwner{
-    Deployfee = fee;
-  }
-
 
   function getDeployFeeFunds(address toAddress) external onlyOwner{
     payable(toAddress).transfer(Adminfund);
@@ -89,7 +84,6 @@ contract BeehiveV1 is Ownable {
 
     SubscribeeV1 subscribeeContract = new SubscribeeV1(address(this), operatorAddress, title, slug, image);
     subscribeeContract.transferOwnership(msg.sender);
-
 
     address subscribeeContractAddress = address(subscribeeContract);
     slugs[slug] = contractInfo(subscribeeContractAddress, block.timestamp);
