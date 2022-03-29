@@ -61,7 +61,7 @@ contract BeehiveV1 is Ownable {
 
 
   function changeSlug(string memory oldslug, string memory newslug) external payable{
-    Subscribee subscribeeContract = Subscribee(slugs[oldslug].contractAddress);
+    SubscribeeV1 subscribeeContract = SubscribeeV1(slugs[oldslug].contractAddress);
     uint timeCreated = slugs[oldslug].timeDeployed;
     require(!Frozen, 'Beehive is currently frozen...');
     require(subscribeeContract.owner() == msg.sender, 'Only the Owner of the contract can do this');
@@ -82,7 +82,7 @@ contract BeehiveV1 is Ownable {
 
     Adminfund += msg.value;
 
-    Subscribee subscribeeContract = new Subscribee(address(this), operatorAddress, title, slug, image);
+    SubscribeeV1 subscribeeContract = new SubscribeeV1(address(this), operatorAddress, title, slug, image);
     subscribeeContract.transferOwnership(msg.sender);
 
     address subscribeeContractAddress = address(subscribeeContract);
