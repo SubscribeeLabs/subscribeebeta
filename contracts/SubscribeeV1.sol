@@ -157,19 +157,9 @@ contract SubscribeeV1 is Ownable{
     _delete(msg.sender, planId, 'User Deleting Subscription');
   }
 
-  function deleteUser(uint64 planId, address user) external onlyOperatorOrOwner{
-    _delete(user, planId, 'Owner/Operator Deleted Subscription');
-  }
-
   function selfPay(uint64 planId) external {
     require(!suspended, 'contract is suspended');
     _safePay(msg.sender, planId);
-  }
-
-  function pay(address subscriber, uint64 planId) external onlyOperatorOrOwner {
-    require(!suspended, 'contract is suspended');
-    require(!plans[planId].halted, 'plan is halted');
-    _safePay(subscriber, planId);
   }
 
   function multiPay(UserObject[] memory users) external onlyOperatorOrOwner{
@@ -177,6 +167,14 @@ contract SubscribeeV1 is Ownable{
       address subscriber = users[i].subscriber;
       uint64 planId = users[i].planId;
       _safePay(subscriber, planId);
+    }
+  }
+
+  function multiDelete(UserObject[] memory users) external onlyOperatorOrOwner{
+    for(uint i = 0; i < users.length; i++){
+      address subscriber = users[i].subscriber;
+      uint64 planId = users[i].planId;
+      _delete(subscriber, planId, 'Owner/Operator Deleted Subscription');
     }
   }
 
@@ -188,7 +186,7 @@ contract SubscribeeV1 is Ownable{
     Subscription storage subscription = subscriptions[planId][subscriber];
     Plan storage plan = plans[planId];
     IERC20 token = IERC20(plan.token);
-    uint PollenFee = plan.amount / 100;
+    uint subscribeeFee = plan.amount / 100;
 
     // conditionals for storage
     require(
@@ -214,8 +212,8 @@ contract SubscribeeV1 is Ownable{
     }
 
     // send to Contract Owner & BeeHive
-    token.transferFrom(subscriber, plan.merchant, plan.amount - PollenFee);
-    token.transferFrom(subscriber, beehive, PollenFee);
+    token.transferFrom(subscriber, plan.merchant, plan.amount - subscribeeFee);
+    token.transferFrom(subscriber, beehive, subscribeeFee);
 
     // set next payment
     subscription.nextPayment = subscription.nextPayment + plan.frequency;
@@ -237,11 +235,11 @@ contract SubscribeeV1 is Ownable{
 
     // set token and fee
     IERC20 token = IERC20(plans[planId].token);
-    uint PollenFee = plan.amount / 100;
+    uint subscribeeFee = plan.amount / 100;
 
     // send to Contract Owner & BeeHive
-    token.transferFrom(msg.sender, plan.merchant, plan.amount - PollenFee);
-    token.transferFrom(msg.sender, beehive, PollenFee);
+    token.transferFrom(msg.sender, plan.merchant, plan.amount - subscribeeFee);
+    token.transferFrom(msg.sender, beehive, subscribeeFee);
 
     // add new subscription
     subscriptions[planId][msg.sender] = Subscription(
