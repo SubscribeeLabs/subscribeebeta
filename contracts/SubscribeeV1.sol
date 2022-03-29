@@ -157,26 +157,25 @@ contract SubscribeeV1 is Ownable{
     _delete(msg.sender, planId, 'User Deleting Subscription');
   }
 
-  function deleteUser(uint64 planId, address user) external onlyOperatorOrOwner{
-    _delete(user, planId, 'Owner/Operator Deleted Subscription');
-  }
-
   function selfPay(uint64 planId) external {
     require(!suspended, 'contract is suspended');
     _safePay(msg.sender, planId);
   }
 
-  function pay(address subscriber, uint64 planId) external onlyOperatorOrOwner {
-    require(!suspended, 'contract is suspended');
-    require(!plans[planId].halted, 'plan is halted');
-    _safePay(subscriber, planId);
-  }
-
   function multiPay(UserObject[] memory users) external onlyOperatorOrOwner{
+    require(!suspended, 'contract is suspended');
     for(uint i = 0; i < users.length; i++){
       address subscriber = users[i].subscriber;
       uint64 planId = users[i].planId;
       _safePay(subscriber, planId);
+    }
+  }
+
+  function multiDelete(UserObject[] memory users) external onlyOperatorOrOwner{
+    for(uint i = 0; i < users.length; i++){
+      address subscriber = users[i].subscriber;
+      uint64 planId = users[i].planId;
+      _delete(subscriber, planId, 'Owner/Operator Deleted Subscription');
     }
   }
 
