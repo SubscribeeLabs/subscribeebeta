@@ -163,6 +163,7 @@ contract SubscribeeV1 is Ownable{
   }
 
   function multiPay(UserObject[] memory users) external onlyOperatorOrOwner{
+    require(!suspended, 'contract is suspended');
     for(uint i = 0; i < users.length; i++){
       address subscriber = users[i].subscriber;
       uint64 planId = users[i].planId;
