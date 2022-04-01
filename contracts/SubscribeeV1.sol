@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract SubscribeeV1 is Ownable{
 
   uint64 public nextPlanId;
-  bool public suspended = false;
+  bool public suspended;
   string public title;
   string public slug;
   string public image;
@@ -130,7 +130,7 @@ contract SubscribeeV1 is Ownable{
   function createPlan(string memory planTitle, address merchant, address token, uint128 amount, uint128 frequency) external onlyOperatorOrOwner{
     require(token != address(0), 'address cannot be null address');
     require(amount > 0, 'amount needs to be > 0');
-    require(frequency > 0, 'frequency needs to be greater then 24 hours');
+    require(frequency > 86400, 'frequency needs to be greater then 24 hours');
 
     plans[nextPlanId] = Plan(
       planTitle,
@@ -191,7 +191,7 @@ contract SubscribeeV1 is Ownable{
 
     // conditionals for storage
     require(
-       subscriber != address(0),
+       subscription.start != 0,
       'this subscription does not exist'
     );
 
