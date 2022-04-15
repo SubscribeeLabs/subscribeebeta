@@ -46,10 +46,10 @@ contract SubscribeeV1 is Ownable{
 
 
   event PlanCreated(
-    string title
-    address token
-    uint128 amount;
-    uint128 frequency;
+    string title,
+    address token,
+    uint128 amount,
+    uint128 frequency
   );
 
   event SubscriptionCreated(
@@ -141,7 +141,7 @@ contract SubscribeeV1 is Ownable{
       false
     );
 
-    emit planCreated(planTitle, token, amount, frequency)
+    emit PlanCreated(planTitle, token, amount, frequency);
     nextPlanId++;
   }
 
