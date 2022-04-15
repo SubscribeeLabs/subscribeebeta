@@ -46,10 +46,10 @@ contract SubscribeeV1 is Ownable{
 
 
   event PlanCreated(
-    address merchant,
-    uint64 planId,
-    uint date,
-    uint64 terms
+    string title
+    address token
+    uint128 amount;
+    uint128 frequency;
   );
 
   event SubscriptionCreated(
@@ -140,6 +140,8 @@ contract SubscribeeV1 is Ownable{
       frequency,
       false
     );
+
+    emit planCreated(planTitle, token, amount, frequency)
     nextPlanId++;
   }
 
@@ -277,8 +279,9 @@ contract SubscribeeV1 is Ownable{
     // delete from arrayLookup
     address[] storage subscriptionUsers = luSubscriptions[planId];
     for(uint i = 0; i < subscriptionUsers.length; i++){
-      if(subscriptionUsers[i] == msg.sender){
-          delete subscriptionUsers[i];
+      if(subscriptionUsers[i] == user){
+          subscriptionUsers[i] = subscriptionUsers[subscriptionUsers.length - 1];
+          subscriptionUsers.pop();
       }
     }
 
