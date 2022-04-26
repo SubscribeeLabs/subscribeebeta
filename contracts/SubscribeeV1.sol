@@ -6,15 +6,13 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract SubscribeeV1 is Ownable{
 
-  uint64 public nextPlanId;
-  bool public suspended;
+  uint8 public nextPlanId;
   string public title;
-  string public slug;
   string public image;
 
-  mapping(uint64 => address[]) private luSubscriptions;
-  mapping(uint64 => Plan) public plans;
-  mapping(uint64 => mapping(address => Subscription)) public subscriptions;
+  mapping(uint8 => address[]) private subscriberLists;
+  mapping(uint8 => Plan) public plans;
+  mapping(uint8 => mapping(address => Subscription)) public subscriptions;
 
   address public beehive;
   address public operator;
@@ -34,11 +32,12 @@ contract SubscribeeV1 is Ownable{
     uint start;
     uint nextPayment;
     bool stopped;
+    uint userId;
   }
 
   struct UserObject {
     address subscriber;
-    uint64 planId;
+    uint8 planId;
   }
 
 
@@ -46,21 +45,21 @@ contract SubscribeeV1 is Ownable{
 
 
   event PlanCreated(
-    address merchant,
-    uint64 planId,
-    uint date,
-    uint64 terms
+    string title,
+    address token,
+    uint128 amount,
+    uint128 frequency
   );
 
   event SubscriptionCreated(
     address subscriber,
-    uint64 planId,
+    uint8 planId,
     uint date
   );
 
   event SubscriptionDeleted(
     address subscriber,
-    uint64 planId,
+    uint8 planId,
     uint date,
     string reason
   );
@@ -69,7 +68,7 @@ contract SubscribeeV1 is Ownable{
     address from,
     address to,
     uint128 amount,
-    uint64 planId,
+    uint8 planId,
     uint date
   );
 
@@ -80,46 +79,47 @@ contract SubscribeeV1 is Ownable{
     _;
   }
 
-
-
   // Constructor
 
-  constructor(address beehiveAddress, address operatorAddress, string memory newTitle, string memory newSlug, string memory newImage) {
+  constructor(address beehiveAddress, address operatorAddress, string memory newTitle, string memory newImage) {
     beehive = beehiveAddress;
     operator = operatorAddress;
-    slug = newSlug;
     title = newTitle;
     image = newImage;
   }
 
 
-  // Functions
+  // External Functions
+
+  function subscribe(uint8 planId) external {
+    _safeSubscribe(planId);
+  }
+
+  function stopPay(uint8 planId) external {
+    _stop(planId);
+  }
+
+  function selfDelete(uint8 planId) external {
+    _delete(msg.sender, planId, 'User Deleting Subscription');
+  }
+
+  function selfPay(uint8 planId) external {
+    _safePay(msg.sender, planId);
+  }
 
   function setOperator(address newOperator) external onlyOwner{
     operator = newOperator;
   }
 
-  function toggleSuspend() external onlyOwner{
-    if(suspended == true){
-      suspended = false;
-    }else{
-      suspended = true;
-    }
-  }
-
-  function getSubscriberArray(uint64 planId) external view onlyOperatorOrOwner returns(address[] memory){
-    return luSubscriptions[planId];
-  }
-
-  function setTitle(string memory newTitle) external onlyOperatorOrOwner{
+  function setTitle(string memory newTitle) external onlyOwner{
     title = newTitle;
   }
 
-  function setImage(string memory newImage) external onlyOperatorOrOwner{
+  function setImage(string memory newImage) external onlyOwner{
     image = newImage;
   }
 
-  function togglePlanHalt(uint64 planId) external onlyOperatorOrOwner{
+  function togglePlanHalt(uint8 planId) external onlyOwner{
     if(plans[planId].halted == true){
       plans[planId].halted = false;
     }else{
@@ -127,7 +127,7 @@ contract SubscribeeV1 is Ownable{
     }
   }
 
-  function createPlan(string memory planTitle, address merchant, address token, uint128 amount, uint128 frequency) external onlyOperatorOrOwner{
+  function createPlan(string memory planTitle, address merchant, address token, uint128 amount, uint128 frequency) external onlyOwner{
     require(token != address(0), 'address cannot be null address');
     require(amount > 0, 'amount needs to be > 0');
     require(frequency > 86400, 'frequency needs to be greater then 24 hours');
@@ -140,33 +140,24 @@ contract SubscribeeV1 is Ownable{
       frequency,
       false
     );
+
+    emit PlanCreated(title, token, amount, frequency);
     nextPlanId++;
   }
 
-  function subscribe(uint64 planId) external {
-    require(!suspended, 'contract is suspended');
-    require(!plans[planId].halted, 'plan is halted');
-    _safeSubscribe(planId);
+  function changePlanMerchant(uint8 planId, address merchant) external onlyOwner{
+    Plan storage plan = plans[planId];
+    plan.merchant = merchant;
   }
 
-  function stopPay(uint64 planId) external {
-    _safeStop(planId);
-  }
-
-  function selfDelete(uint64 planId) external {
-    _delete(msg.sender, planId, 'User Deleting Subscription');
-  }
-
-  function selfPay(uint64 planId) external {
-    require(!suspended, 'contract is suspended');
-    _safePay(msg.sender, planId);
+  function getSubscriberArray(uint8 planId) external view onlyOperatorOrOwner returns(address[] memory){
+    return subscriberLists[planId];
   }
 
   function multiPay(UserObject[] memory users) external onlyOperatorOrOwner{
-    require(!suspended, 'contract is suspended');
     for(uint i = 0; i < users.length; i++){
       address subscriber = users[i].subscriber;
-      uint64 planId = users[i].planId;
+      uint8 planId = users[i].planId;
       _safePay(subscriber, planId);
     }
   }
@@ -174,22 +165,21 @@ contract SubscribeeV1 is Ownable{
   function multiDelete(UserObject[] memory users) external onlyOperatorOrOwner{
     for(uint i = 0; i < users.length; i++){
       address subscriber = users[i].subscriber;
-      uint64 planId = users[i].planId;
+      uint8 planId = users[i].planId;
       _delete(subscriber, planId, 'Owner/Operator Deleted Subscription');
     }
   }
 
-  // Internal Functions
+  // Private Functions
 
-
-  function _safePay(address subscriber, uint64 planId) internal {
+  function _safePay(address subscriber, uint8 planId) private {
     // call from storage
     Subscription storage subscription = subscriptions[planId][subscriber];
     Plan storage plan = plans[planId];
     IERC20 token = IERC20(plan.token);
-    uint PollenFee = plan.amount / 100;
+    uint pollenFee = plan.amount / 50;
 
-    // conditionals for storage
+    // conditionals
     require(
        subscription.start != 0,
       'this subscription does not exist'
@@ -200,21 +190,24 @@ contract SubscribeeV1 is Ownable{
       'not due yet'
     );
 
-    // check for stopped subscription, will delete here due to the previous check of being past the timestamp
-    if(subscription.stopped){
-      _delete(subscriber, planId, 'past due & stopped, subscription deleted');
-      return;
-    }
+    require(
+      !plan.halted,
+      'Plan is halted'
+    );
 
-    // Will check if user has funds, if not will delete subscription
-    if(token.balanceOf(subscriber) < plan.amount){
-      _delete(subscriber, planId, 'insufficent funds, subscription deleted');
-      return;
-    }
+    require(
+      !subscription.stopped,
+      'Subscriber opted to stop payments; delete subscription'
+    );
+
+    require(
+      token.balanceOf(subscriber) >= plan.amount,
+      'Subscriber has insufficent funds; delete subscription'
+    );
 
     // send to Contract Owner & BeeHive
-    token.transferFrom(subscriber, plan.merchant, plan.amount - PollenFee);
-    token.transferFrom(subscriber, beehive, PollenFee);
+    token.transferFrom(subscriber, plan.merchant, plan.amount - pollenFee);
+    token.transferFrom(subscriber, beehive, pollenFee);
 
     // set next payment
     subscription.nextPayment = subscription.nextPayment + plan.frequency;
@@ -229,29 +222,29 @@ contract SubscribeeV1 is Ownable{
       );
     }
 
-  function _safeSubscribe(uint64 planId) internal {
+  function _safeSubscribe(uint8 planId) private {
     // calls plan from storage and check if it exists
     Plan storage plan = plans[planId];
     require(plan.merchant != address(0), 'this plan does not exist');
+    require(!plan.halted, 'plan is halted');
 
     // set token and fee
     IERC20 token = IERC20(plans[planId].token);
-    uint PollenFee = plan.amount / 100;
+    uint pollenFee = plan.amount / 50;
 
     // send to Contract Owner & BeeHive
-    token.transferFrom(msg.sender, plan.merchant, plan.amount - PollenFee);
-    token.transferFrom(msg.sender, beehive, PollenFee);
+    token.transferFrom(msg.sender, plan.merchant, plan.amount - pollenFee);
+    token.transferFrom(msg.sender, beehive, pollenFee);
+
+    subscriberLists[planId].push(msg.sender);
 
     // add new subscription
     subscriptions[planId][msg.sender] = Subscription(
       block.timestamp,
       block.timestamp + plan.frequency,
-      false
+      false,
+      subscriberLists[planId].length - 1
     );
-
-    // add user to lookup array
-    address[] storage subscriptionUsers = luSubscriptions[planId];
-    subscriptionUsers.push(msg.sender);
 
     // emit Subscription and Payment events
     emit SubscriptionCreated(address(msg.sender), planId, block.timestamp);
@@ -266,26 +259,26 @@ contract SubscribeeV1 is Ownable{
 
   }
 
-  function _delete(address user, uint64 planId, string memory reason) internal {
+  function _delete(address user, uint8 planId, string memory reason) private {
     // Grab user subscription data & check if it exists
     Subscription storage subscription = subscriptions[planId][user];
     require(subscription.start != 0, 'this subscription does not exist');
 
+    // delete from array
+    address[] storage subscriberArray = subscriberLists[planId];
+    uint userCount = subscription.userId;
+    address addressToChange  = subscriberArray[subscriberArray.length - 1];
+    subscriberArray[userCount] = addressToChange;
+    subscriptions[planId][addressToChange].userId = userCount;
+    subscriberArray.pop();
+
     // delete from mapping
     delete subscriptions[planId][user];
-
-    // delete from arrayLookup
-    address[] storage subscriptionUsers = luSubscriptions[planId];
-    for(uint i = 0; i < subscriptionUsers.length; i++){
-      if(subscriptionUsers[i] == msg.sender){
-          delete subscriptionUsers[i];
-      }
-    }
 
     emit SubscriptionDeleted(user, planId, block.timestamp, reason);
   }
 
-  function _safeStop(uint64 planId) internal {
+  function _stop(uint8 planId) private {
     // Grab user subscription data & check if it exists
     Subscription storage subscription = subscriptions[planId][msg.sender];
     require(subscription.start != 0, 'this subscription does not exist');

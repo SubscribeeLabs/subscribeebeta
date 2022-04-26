@@ -7,53 +7,40 @@ import "./SubscribeeV1.sol";
 
 contract BeehiveV1 is Ownable {
 
-  mapping(string => contractInfo) public slugs;
-  uint256 public Adminfund;
-  uint256 public Deployfee;
-  uint256 public Slugfee;
-  bool public Frozen = false;
+  mapping(string => address) public slugs;
+  mapping(address => string) public slugLookup;
+  uint256 public adminFund;
+  uint256 public deployFee;
+  uint256 public slugFee;
 
   event NewContract(
-    address newSubscribeeContract,
-    uint timeDeployed
+    address contractAddress,
+    string slug,
+    uint time
   );
 
   event slugChanged(
     address contractAddress,
-    uint timeDeployed,
     string oldSlug,
     string newSlug
   );
 
-  struct contractInfo {
-    address contractAddress;
-    uint timeDeployed;
-  }
-
   constructor(uint fee, uint slugfee){
-    Deployfee = fee;
-    Slugfee = slugfee;
+    deployFee = fee;
+    slugFee = slugfee;
   }
 
-  function toggleFreeze() external onlyOwner{
-    if(Frozen == false){
-      Frozen = true;
-    }else{
-      Frozen = false;
-    }
+  function setFees(uint deployfee, uint slugfee) external onlyOwner{
+    deployFee = deployfee;
+    slugFee = slugfee;
   }
 
-  function setDeployFee(uint deployfee, uint slugfee) external onlyOwner{
-    Deployfee = deployfee;
-    Slugfee = slugfee;
+  function getFunds(address toAddress) external onlyOwner{
+    payable(toAddress).transfer(adminFund);
+    adminFund = 0;
   }
 
-  function getDeployFeeFunds(address toAddress) external onlyOwner{
-    payable(toAddress).transfer(Adminfund);
-    Adminfund = 0;
-  }
-
-  function getERC20Funds(address toAddress, address tokenAddress) external onlyOwner {
+  function getTokenFunds(address toAddress, address tokenAddress) external onlyOwner {
     IERC20 token = IERC20(tokenAddress);
     uint256 tokenAmount = token.balanceOf(address(this));
     token.transferFrom(address(this), toAddress, tokenAmount);
@@ -61,35 +48,33 @@ contract BeehiveV1 is Ownable {
 
 
   function changeSlug(string memory oldslug, string memory newslug) external payable{
-    SubscribeeV1 subscribeeContract = SubscribeeV1(slugs[oldslug].contractAddress);
-    uint timeCreated = slugs[oldslug].timeDeployed;
-    require(!Frozen, 'Beehive is currently frozen...');
+    SubscribeeV1 subscribeeContract = SubscribeeV1(slugs[oldslug]);
     require(subscribeeContract.owner() == msg.sender, 'Only the Owner of the contract can do this');
-    require(slugs[newslug].contractAddress == address(0), 'Slug has been taken');
-    require(msg.value == Slugfee, 'Please pay the appropiate amount...');
+    require(slugs[newslug] == address(0), 'Slug has been taken');
+    require(msg.value == slugFee || msg.sender == owner(), 'Please pay the appropiate amount...');
 
-    Adminfund += msg.value;
-    slugs[newslug] = contractInfo(slugs[oldslug].contractAddress, timeCreated);
-    emit slugChanged(slugs[oldslug].contractAddress, timeCreated, oldslug, newslug);
+    adminFund += msg.value;
+    slugs[newslug] = slugs[oldslug];
+    slugLookup[slugs[oldslug]] = newslug;
+    emit slugChanged(slugs[oldslug], oldslug, newslug);
     delete slugs[oldslug];
   }
 
 
   function deploySubscribeeContract(address operatorAddress, string memory title, string memory slug, string memory image) external payable{
-    require(slugs[slug].contractAddress == address(0), 'Slug has been taken');
-    require(!Frozen, 'Beehive is currently frozen...');
-    require(msg.value == Deployfee, 'Please pay the appropiate amount...');
+    require(slugs[slug] == address(0), 'Slug has been taken');
+    require(msg.value == deployFee || msg.sender == owner(), 'Please pay the appropiate amount...');
 
-    Adminfund += msg.value;
+    adminFund += msg.value;
 
-    SubscribeeV1 subscribeeContract = new SubscribeeV1(address(this), operatorAddress, title, slug, image);
-    subscribeeContract.transferOwnership(msg.sender);
+    SubscribeeV1 newContract = new SubscribeeV1(address(this), operatorAddress, title, image);
+    newContract.transferOwnership(msg.sender);
 
-    address subscribeeContractAddress = address(subscribeeContract);
-    slugs[slug] = contractInfo(subscribeeContractAddress, block.timestamp);
+    address contractAddress = address(newContract);
+    slugs[slug] = contractAddress;
+    slugLookup[contractAddress] = slug;
 
-    emit NewContract(subscribeeContractAddress, block.timestamp);
-    return;
+    emit NewContract(contractAddress, slug, block.timestamp);
   }
 
 
