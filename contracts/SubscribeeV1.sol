@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Business Source License 1.1
-pragma solidity ^0.8.6;
+pragma solidity ^0.8.8;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -21,18 +21,17 @@ contract SubscribeeV1 is Ownable{
 
   struct Plan {
     string title;
-    address merchant;
     address token;
     uint128 amount;
-    uint128 frequency;
+    uint32 frequency;
     bool halted;
   }
 
   struct Subscription {
-    uint start;
-    uint nextPayment;
+    uint256 start;
+    uint256 nextPayment;
     bool stopped;
-    uint userId;
+    uint256 userId;
   }
 
   struct UserObject {
@@ -54,22 +53,21 @@ contract SubscribeeV1 is Ownable{
   event SubscriptionCreated(
     address subscriber,
     uint8 planId,
-    uint date
+    uint256 date
   );
 
   event SubscriptionDeleted(
     address subscriber,
     uint8 planId,
-    uint date,
+    uint256 date,
     string reason
   );
 
   event PaymentSent(
     address from,
-    address to,
     uint128 amount,
     uint8 planId,
-    uint date
+    uint256 date
   );
 
   // Modifiers
@@ -120,21 +118,20 @@ contract SubscribeeV1 is Ownable{
   }
 
   function togglePlanHalt(uint8 planId) external onlyOwner{
-    if(plans[planId].halted == true){
+    if(plans[planId].halted){
       plans[planId].halted = false;
     }else{
       plans[planId].halted = true;
     }
   }
 
-  function createPlan(string memory planTitle, address merchant, address token, uint128 amount, uint128 frequency) external onlyOwner{
+  function createPlan(string memory planTitle, address token, uint128 amount, uint32 frequency) external onlyOwner{
     require(token != address(0), 'address cannot be null address');
     require(amount > 0, 'amount needs to be > 0');
     require(frequency >= 86400, 'frequency needs to be greater then 24 hours');
 
     plans[nextPlanId] = Plan(
       planTitle,
-      merchant,
       token,
       amount,
       frequency,
@@ -143,11 +140,6 @@ contract SubscribeeV1 is Ownable{
 
     emit PlanCreated(title, token, amount, frequency);
     nextPlanId++;
-  }
-
-  function changePlanMerchant(uint8 planId, address merchant) external onlyOwner{
-    Plan storage plan = plans[planId];
-    plan.merchant = merchant;
   }
 
   function getSubscriberArray(uint8 planId) external view onlyOperatorOrOwner returns(address[] memory){
@@ -177,7 +169,8 @@ contract SubscribeeV1 is Ownable{
     Subscription storage subscription = subscriptions[planId][subscriber];
     Plan storage plan = plans[planId];
     IERC20 token = IERC20(plan.token);
-    uint pollenFee = plan.amount / 50;
+    uint256 nectar = plan.amount / 50;
+    uint256 pollen = plan.amount - nectar;
 
     // conditionals
     require(
@@ -206,8 +199,8 @@ contract SubscribeeV1 is Ownable{
     );
 
     // send to Contract Owner & BeeHive
-    token.transferFrom(subscriber, plan.merchant, plan.amount - pollenFee);
-    token.transferFrom(subscriber, beehive, pollenFee);
+    token.transferFrom(subscriber, owner(), pollen);
+    token.transferFrom(subscriber, beehive, nectar);
 
     // set next payment
     subscription.nextPayment = subscription.nextPayment + plan.frequency;
@@ -215,7 +208,6 @@ contract SubscribeeV1 is Ownable{
     // emit event
       emit PaymentSent(
         subscriber,
-        plan.merchant,
         plan.amount,
         planId,
         block.timestamp
@@ -225,16 +217,17 @@ contract SubscribeeV1 is Ownable{
   function _safeSubscribe(uint8 planId) private {
     // calls plan from storage and check if it exists
     Plan storage plan = plans[planId];
-    require(plan.merchant != address(0), 'this plan does not exist');
+    require(plan.token != address(0), 'this plan does not exist');
     require(!plan.halted, 'plan is halted');
 
     // set token and fee
     IERC20 token = IERC20(plans[planId].token);
-    uint pollenFee = plan.amount / 50;
+    uint nectar = plan.amount / 50;
+    uint pollen = plan.amount - nectar;
 
     // send to Contract Owner & BeeHive
-    token.transferFrom(msg.sender, plan.merchant, plan.amount - pollenFee);
-    token.transferFrom(msg.sender, beehive, pollenFee);
+    token.transferFrom(msg.sender, owner(), pollen);
+    token.transferFrom(msg.sender, beehive, nectar);
 
     subscriberLists[planId].push(msg.sender);
 
@@ -247,11 +240,14 @@ contract SubscribeeV1 is Ownable{
     );
 
     // emit Subscription and Payment events
-    emit SubscriptionCreated(address(msg.sender), planId, block.timestamp);
+    emit SubscriptionCreated(
+      msg.sender,
+      planId,
+      block.timestamp
+    );
 
     emit PaymentSent(
       msg.sender,
-      plan.merchant,
       plan.amount,
       planId,
       block.timestamp
@@ -266,10 +262,10 @@ contract SubscribeeV1 is Ownable{
 
     // delete from array
     address[] storage subscriberArray = subscriberLists[planId];
-    uint userCount = subscription.userId;
-    address addressToChange  = subscriberArray[subscriberArray.length - 1];
-    subscriberArray[userCount] = addressToChange;
-    subscriptions[planId][addressToChange].userId = userCount;
+    uint256 userID = subscription.userId;
+    address addressToChange = subscriberArray[subscriberArray.length - 1];
+    subscriberArray[userID] = addressToChange;
+    subscriptions[planId][addressToChange].userId = userID;
     subscriberArray.pop();
 
     // delete from mapping

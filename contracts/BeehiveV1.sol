@@ -1,14 +1,16 @@
 // SPDX-License-Identifier: Business Source License 1.1
-pragma solidity ^0.8.6;
+pragma solidity ^0.8.8;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./SubscribeeV1.sol";
 
 contract BeehiveV1 is Ownable {
 
   mapping(string => address) public slugs;
-  mapping(address => string) public slugLookup;
+  mapping(address => bool) public verifiedSubscribeeContract;
+
+  address public honeyPot;
   uint256 public adminFund;
   uint256 public deployFee;
   uint256 public slugFee;
@@ -16,7 +18,7 @@ contract BeehiveV1 is Ownable {
   event NewContract(
     address contractAddress,
     string slug,
-    uint time
+    uint256 time
   );
 
   event slugChanged(
@@ -25,25 +27,40 @@ contract BeehiveV1 is Ownable {
     string newSlug
   );
 
-  constructor(uint fee, uint slugfee){
+  event honeySent(
+    string token,
+    uint256 tokenAmount,
+    uint256 time
+  );
+
+  event adminFundsCollected(
+    address toAddress,
+    uint256 amount,
+    uint256 time
+  );
+
+  constructor(address honeyPotAddress, uint256 fee, uint256 slugfee){
+    honeyPot = honeyPotAddress;
     deployFee = fee;
     slugFee = slugfee;
   }
 
-  function setFees(uint deployfee, uint slugfee) external onlyOwner{
+  function harvestHoney(address tokenAddress) external {
+    IERC20Metadata token = IERC20Metadata(tokenAddress);
+    uint256 honey = token.balanceOf(address(this));
+    token.transferFrom(address(this), honeyPot, honey);
+    emit honeySent(token.name(), honey, block.timestamp);
+  }
+
+  function setAdminFees(uint256 deployfee, uint256 slugfee) external onlyOwner{
     deployFee = deployfee;
     slugFee = slugfee;
   }
 
-  function getFunds(address toAddress) external onlyOwner{
+  function collectAdminFees(address toAddress) external onlyOwner{
     payable(toAddress).transfer(adminFund);
+    emit adminFundsCollected(toAddress, adminFund, block.timestamp);
     adminFund = 0;
-  }
-
-  function getTokenFunds(address toAddress, address tokenAddress) external onlyOwner {
-    IERC20 token = IERC20(tokenAddress);
-    uint256 tokenAmount = token.balanceOf(address(this));
-    token.transferFrom(address(this), toAddress, tokenAmount);
   }
 
 
@@ -55,7 +72,6 @@ contract BeehiveV1 is Ownable {
 
     adminFund += msg.value;
     slugs[newslug] = slugs[oldslug];
-    slugLookup[slugs[oldslug]] = newslug;
     emit slugChanged(slugs[oldslug], oldslug, newslug);
     delete slugs[oldslug];
   }
@@ -72,7 +88,7 @@ contract BeehiveV1 is Ownable {
 
     address contractAddress = address(newContract);
     slugs[slug] = contractAddress;
-    slugLookup[contractAddress] = slug;
+    verifiedSubscribeeContract[contractAddress] = true;
 
     emit NewContract(contractAddress, slug, block.timestamp);
   }
