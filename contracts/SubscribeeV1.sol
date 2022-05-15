@@ -128,7 +128,7 @@ contract SubscribeeV1 is Ownable{
   function createPlan(string memory planTitle, address token, uint128 amount, uint32 frequency) external onlyOwner{
     require(token != address(0), 'address cannot be null address');
     require(amount > 0, 'amount needs to be > 0');
-    require(frequency >= 86400, 'frequency needs to be greater then 24 hours');
+    require(frequency >= 86400, 'frequency needs to be greater or equal to 24 hours');
 
     plans[nextPlanId] = Plan(
       planTitle,
@@ -221,7 +221,7 @@ contract SubscribeeV1 is Ownable{
     require(!plan.halted, 'plan is halted');
 
     // set token and fee
-    IERC20 token = IERC20(plans[planId].token);
+    IERC20 token = IERC20(plan.token);
     uint nectar = plan.amount / 50;
     uint pollen = plan.amount - nectar;
 

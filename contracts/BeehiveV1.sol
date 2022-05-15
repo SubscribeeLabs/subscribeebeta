@@ -10,7 +10,7 @@ contract BeehiveV1 is Ownable {
   mapping(string => address) public slugs;
   mapping(address => bool) public verifiedSubscribeeContract;
 
-  address public honeyPot;
+  address public honeyJar;
   uint256 public adminFund;
   uint256 public deployFee;
   uint256 public slugFee;
@@ -39,16 +39,16 @@ contract BeehiveV1 is Ownable {
     uint256 time
   );
 
-  constructor(address honeyPotAddress, uint256 fee, uint256 slugfee){
-    honeyPot = honeyPotAddress;
-    deployFee = fee;
+  constructor(address honeyJarAddress, uint256 deployfee, uint256 slugfee){
+    honeyJar = honeyJarAddress;
+    deployFee = deployfee;
     slugFee = slugfee;
   }
 
   function harvestHoney(address tokenAddress) external {
     IERC20Metadata token = IERC20Metadata(tokenAddress);
     uint256 honey = token.balanceOf(address(this));
-    token.transferFrom(address(this), honeyPot, honey);
+    token.transferFrom(address(this), honeyJar, honey);
     emit honeySent(token.name(), honey, block.timestamp);
   }
 

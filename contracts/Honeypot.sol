@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "./dependencies/MintableERC20.sol";
 import "./interfaces/IUniswapV2Pair.sol";
 
-contract Honeypot is ERC20Capped, ERC20Mintable, ERC20Burnable, Ownable {
+contract HoneyJar is ERC20Capped, ERC20Mintable, ERC20Burnable, Ownable {
 
     mapping (address => bool) approvedPool;
     uint256 public liquidateFee;
