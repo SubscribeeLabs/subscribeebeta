@@ -47,7 +47,7 @@ contract HoneyJar is ERC20Capped, ERC20Mintable, ERC20Burnable, Ownable {
 
       uint fee = amountOfToken / liquidateFee;
       burn(amount);
-      tokenToCollect.transfer(msg.sender, amountOfToken - fee);
+      require(tokenToCollect.transfer(msg.sender, amountOfToken - fee));
 
       emit liquidation(msg.sender, amount, tokenToCollect.name(), amountOfToken - fee, block.timestamp);
     }

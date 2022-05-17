@@ -330,27 +330,27 @@
     "absolutePath": "/home/lavandor9/contracts/subscribee-official/contracts/dependencies/MintableERC20.sol",
     "exportedSymbols": {
       "Context": [
-        2632
+        2626
       ],
       "ERC20": [
-        2380
+        2374
       ],
       "ERC20Mintable": [
-        1487
+        1481
       ],
       "IERC20": [
-        2458
+        2452
       ],
       "IERC20Metadata": [
-        2610
+        2604
       ]
     },
-    "id": 1488,
+    "id": 1482,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1418,
+        "id": 1412,
         "literals": [
           "solidity",
           "^",
@@ -363,11 +363,11 @@
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
-        "id": 1419,
+        "id": 1413,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 1488,
-        "sourceUnit": 2381,
+        "scope": 1482,
+        "sourceUnit": 2375,
         "src": "57:55:3",
         "symbolAliases": [],
         "unitAlias": ""
@@ -377,13 +377,13 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 1421,
+              "id": 1415,
               "name": "ERC20",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 2380,
+              "referencedDeclaration": 2374,
               "src": "278:5:3"
             },
-            "id": 1422,
+            "id": 1416,
             "nodeType": "InheritanceSpecifier",
             "src": "278:5:3"
           }
@@ -391,19 +391,19 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "documentation": {
-          "id": 1420,
+          "id": 1414,
           "nodeType": "StructuredDocumentation",
           "src": "114:128:3",
           "text": " @title ERC20Mintable\n @dev Implementation of the ERC20Mintable. Extension of {ERC20} that adds a minting behaviour."
         },
         "fullyImplemented": false,
-        "id": 1487,
+        "id": 1481,
         "linearizedBaseContracts": [
-          1487,
-          2380,
-          2610,
-          2458,
-          2632
+          1481,
+          2374,
+          2604,
+          2452,
+          2626
         ],
         "name": "ERC20Mintable",
         "nameLocation": "261:13:3",
@@ -411,12 +411,12 @@
         "nodes": [
           {
             "constant": false,
-            "id": 1425,
+            "id": 1419,
             "mutability": "mutable",
             "name": "_mintingFinished",
             "nameLocation": "344:16:3",
             "nodeType": "VariableDeclaration",
-            "scope": 1487,
+            "scope": 1481,
             "src": "331:37:3",
             "stateVariable": true,
             "storageLocation": "default",
@@ -425,7 +425,7 @@
               "typeString": "bool"
             },
             "typeName": {
-              "id": 1423,
+              "id": 1417,
               "name": "bool",
               "nodeType": "ElementaryTypeName",
               "src": "331:4:3",
@@ -436,7 +436,7 @@
             },
             "value": {
               "hexValue": "66616c7365",
-              "id": 1424,
+              "id": 1418,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -455,17 +455,17 @@
           {
             "anonymous": false,
             "documentation": {
-              "id": 1426,
+              "id": 1420,
               "nodeType": "StructuredDocumentation",
               "src": "375:53:3",
               "text": " @dev Emitted during finish minting"
             },
-            "id": 1428,
+            "id": 1422,
             "name": "MintFinished",
             "nameLocation": "439:12:3",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 1427,
+              "id": 1421,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "451:2:3"
@@ -474,7 +474,7 @@
           },
           {
             "body": {
-              "id": 1438,
+              "id": 1432,
               "nodeType": "Block",
               "src": "558:92:3",
               "statements": [
@@ -482,7 +482,7 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1433,
+                        "id": 1427,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -492,11 +492,11 @@
                         "prefix": true,
                         "src": "576:17:3",
                         "subExpression": {
-                          "id": 1432,
+                          "id": 1426,
                           "name": "_mintingFinished",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1425,
+                          "referencedDeclaration": 1419,
                           "src": "577:16:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bool",
@@ -510,7 +510,7 @@
                       },
                       {
                         "hexValue": "45524332304d696e7461626c653a206d696e74696e672069732066696e6973686564",
-                        "id": 1434,
+                        "id": 1428,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -536,7 +536,7 @@
                           "typeString": "literal_string \"ERC20Mintable: minting is finished\""
                         }
                       ],
-                      "id": 1431,
+                      "id": 1425,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -550,7 +550,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 1435,
+                    "id": 1429,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -565,29 +565,29 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1436,
+                  "id": 1430,
                   "nodeType": "ExpressionStatement",
                   "src": "568:64:3"
                 },
                 {
-                  "id": 1437,
+                  "id": 1431,
                   "nodeType": "PlaceholderStatement",
                   "src": "642:1:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1429,
+              "id": 1423,
               "nodeType": "StructuredDocumentation",
               "src": "460:74:3",
               "text": " @dev Tokens can be minted only before minting finished."
             },
-            "id": 1439,
+            "id": 1433,
             "name": "canMint",
             "nameLocation": "548:7:3",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 1430,
+              "id": 1424,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "555:2:3"
@@ -598,38 +598,38 @@
           },
           {
             "body": {
-              "id": 1447,
+              "id": 1441,
               "nodeType": "Block",
               "src": "772:40:3",
               "statements": [
                 {
                   "expression": {
-                    "id": 1445,
+                    "id": 1439,
                     "name": "_mintingFinished",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1425,
+                    "referencedDeclaration": 1419,
                     "src": "789:16:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
-                  "functionReturnParameters": 1444,
-                  "id": 1446,
+                  "functionReturnParameters": 1438,
+                  "id": 1440,
                   "nodeType": "Return",
                   "src": "782:23:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1440,
+              "id": 1434,
               "nodeType": "StructuredDocumentation",
               "src": "656:57:3",
               "text": " @return if minting is finished or not."
             },
             "functionSelector": "05d2035b",
-            "id": 1448,
+            "id": 1442,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -637,23 +637,23 @@
             "nameLocation": "727:15:3",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1441,
+              "id": 1435,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "742:2:3"
             },
             "returnParameters": {
-              "id": 1444,
+              "id": 1438,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1443,
+                  "id": 1437,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1448,
+                  "scope": 1442,
                   "src": "766:4:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -662,7 +662,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1442,
+                    "id": 1436,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "766:4:3",
@@ -676,7 +676,7 @@
               ],
               "src": "765:6:3"
             },
-            "scope": 1487,
+            "scope": 1481,
             "src": "718:94:3",
             "stateMutability": "view",
             "virtual": false,
@@ -684,7 +684,7 @@
           },
           {
             "body": {
-              "id": 1463,
+              "id": 1457,
               "nodeType": "Block",
               "src": "1176:39:3",
               "statements": [
@@ -692,11 +692,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1459,
+                        "id": 1453,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1451,
+                        "referencedDeclaration": 1445,
                         "src": "1192:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -704,11 +704,11 @@
                         }
                       },
                       {
-                        "id": 1460,
+                        "id": 1454,
                         "name": "amount",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1453,
+                        "referencedDeclaration": 1447,
                         "src": "1201:6:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -727,18 +727,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 1458,
+                      "id": 1452,
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2240,
+                      "referencedDeclaration": 2234,
                       "src": "1186:5:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
                         "typeString": "function (address,uint256)"
                       }
                     },
-                    "id": 1461,
+                    "id": 1455,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -753,31 +753,31 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1462,
+                  "id": 1456,
                   "nodeType": "ExpressionStatement",
                   "src": "1186:22:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1449,
+              "id": 1443,
               "nodeType": "StructuredDocumentation",
               "src": "818:291:3",
               "text": " @dev Function to mint tokens.\n WARNING: it allows everyone to mint new tokens. Access controls MUST be defined in derived contracts.\n @param account The address that will receive the minted tokens\n @param amount The amount of tokens to mint"
             },
             "functionSelector": "40c10f19",
-            "id": 1464,
+            "id": 1458,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
-                "id": 1456,
+                "id": 1450,
                 "kind": "modifierInvocation",
                 "modifierName": {
-                  "id": 1455,
+                  "id": 1449,
                   "name": "canMint",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1439,
+                  "referencedDeclaration": 1433,
                   "src": "1168:7:3"
                 },
                 "nodeType": "ModifierInvocation",
@@ -788,17 +788,17 @@
             "nameLocation": "1123:4:3",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1454,
+              "id": 1448,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1451,
+                  "id": 1445,
                   "mutability": "mutable",
                   "name": "account",
                   "nameLocation": "1136:7:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1464,
+                  "scope": 1458,
                   "src": "1128:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -807,7 +807,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1450,
+                    "id": 1444,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1128:7:3",
@@ -821,12 +821,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1453,
+                  "id": 1447,
                   "mutability": "mutable",
                   "name": "amount",
                   "nameLocation": "1153:6:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1464,
+                  "scope": 1458,
                   "src": "1145:14:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -835,7 +835,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1452,
+                    "id": 1446,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1145:7:3",
@@ -850,12 +850,12 @@
               "src": "1127:33:3"
             },
             "returnParameters": {
-              "id": 1457,
+              "id": 1451,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1176:0:3"
             },
-            "scope": 1487,
+            "scope": 1481,
             "src": "1114:101:3",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -863,7 +863,7 @@
           },
           {
             "body": {
-              "id": 1473,
+              "id": 1467,
               "nodeType": "Block",
               "src": "1441:33:3",
               "statements": [
@@ -872,18 +872,18 @@
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
-                      "id": 1470,
+                      "id": 1464,
                       "name": "_finishMinting",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1486,
+                      "referencedDeclaration": 1480,
                       "src": "1451:14:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$__$returns$__$",
                         "typeString": "function ()"
                       }
                     },
-                    "id": 1471,
+                    "id": 1465,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -898,31 +898,31 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1472,
+                  "id": 1466,
                   "nodeType": "ExpressionStatement",
                   "src": "1451:16:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1465,
+              "id": 1459,
               "nodeType": "StructuredDocumentation",
               "src": "1221:175:3",
               "text": " @dev Function to stop minting new tokens.\n WARNING: it allows everyone to finish minting. Access controls MUST be defined in derived contracts."
             },
             "functionSelector": "7d64bcb4",
-            "id": 1474,
+            "id": 1468,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
-                "id": 1468,
+                "id": 1462,
                 "kind": "modifierInvocation",
                 "modifierName": {
-                  "id": 1467,
+                  "id": 1461,
                   "name": "canMint",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1439,
+                  "referencedDeclaration": 1433,
                   "src": "1433:7:3"
                 },
                 "nodeType": "ModifierInvocation",
@@ -933,18 +933,18 @@
             "nameLocation": "1410:13:3",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1466,
+              "id": 1460,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1423:2:3"
             },
             "returnParameters": {
-              "id": 1469,
+              "id": 1463,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1441:0:3"
             },
-            "scope": 1487,
+            "scope": 1481,
             "src": "1401:73:3",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -952,23 +952,23 @@
           },
           {
             "body": {
-              "id": 1485,
+              "id": 1479,
               "nodeType": "Block",
               "src": "1588:70:3",
               "statements": [
                 {
                   "expression": {
-                    "id": 1480,
+                    "id": 1474,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 1478,
+                      "id": 1472,
                       "name": "_mintingFinished",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1425,
+                      "referencedDeclaration": 1419,
                       "src": "1598:16:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -979,7 +979,7 @@
                     "operator": "=",
                     "rightHandSide": {
                       "hexValue": "74727565",
-                      "id": 1479,
+                      "id": 1473,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -999,7 +999,7 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 1481,
+                  "id": 1475,
                   "nodeType": "ExpressionStatement",
                   "src": "1598:23:3"
                 },
@@ -1008,18 +1008,18 @@
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
-                      "id": 1482,
+                      "id": 1476,
                       "name": "MintFinished",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1428,
+                      "referencedDeclaration": 1422,
                       "src": "1637:12:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$__$returns$__$",
                         "typeString": "function ()"
                       }
                     },
-                    "id": 1483,
+                    "id": 1477,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1034,19 +1034,19 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1484,
+                  "id": 1478,
                   "nodeType": "EmitStatement",
                   "src": "1632:19:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1475,
+              "id": 1469,
               "nodeType": "StructuredDocumentation",
               "src": "1480:60:3",
               "text": " @dev Function to stop minting new tokens."
             },
-            "id": 1486,
+            "id": 1480,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -1054,25 +1054,25 @@
             "nameLocation": "1554:14:3",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1476,
+              "id": 1470,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1568:2:3"
             },
             "returnParameters": {
-              "id": 1477,
+              "id": 1471,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1588:0:3"
             },
-            "scope": 1487,
+            "scope": 1481,
             "src": "1545:113:3",
             "stateMutability": "nonpayable",
             "virtual": true,
             "visibility": "internal"
           }
         ],
-        "scope": 1488,
+        "scope": 1482,
         "src": "243:1417:3",
         "usedErrors": []
       }
@@ -1083,27 +1083,27 @@
     "absolutePath": "/home/lavandor9/contracts/subscribee-official/contracts/dependencies/MintableERC20.sol",
     "exportedSymbols": {
       "Context": [
-        2632
+        2626
       ],
       "ERC20": [
-        2380
+        2374
       ],
       "ERC20Mintable": [
-        1487
+        1481
       ],
       "IERC20": [
-        2458
+        2452
       ],
       "IERC20Metadata": [
-        2610
+        2604
       ]
     },
-    "id": 1488,
+    "id": 1482,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1418,
+        "id": 1412,
         "literals": [
           "solidity",
           "^",
@@ -1116,11 +1116,11 @@
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/ERC20.sol",
-        "id": 1419,
+        "id": 1413,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 1488,
-        "sourceUnit": 2381,
+        "scope": 1482,
+        "sourceUnit": 2375,
         "src": "57:55:3",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1130,13 +1130,13 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 1421,
+              "id": 1415,
               "name": "ERC20",
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 2380,
+              "referencedDeclaration": 2374,
               "src": "278:5:3"
             },
-            "id": 1422,
+            "id": 1416,
             "nodeType": "InheritanceSpecifier",
             "src": "278:5:3"
           }
@@ -1144,19 +1144,19 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "documentation": {
-          "id": 1420,
+          "id": 1414,
           "nodeType": "StructuredDocumentation",
           "src": "114:128:3",
           "text": " @title ERC20Mintable\n @dev Implementation of the ERC20Mintable. Extension of {ERC20} that adds a minting behaviour."
         },
         "fullyImplemented": false,
-        "id": 1487,
+        "id": 1481,
         "linearizedBaseContracts": [
-          1487,
-          2380,
-          2610,
-          2458,
-          2632
+          1481,
+          2374,
+          2604,
+          2452,
+          2626
         ],
         "name": "ERC20Mintable",
         "nameLocation": "261:13:3",
@@ -1164,12 +1164,12 @@
         "nodes": [
           {
             "constant": false,
-            "id": 1425,
+            "id": 1419,
             "mutability": "mutable",
             "name": "_mintingFinished",
             "nameLocation": "344:16:3",
             "nodeType": "VariableDeclaration",
-            "scope": 1487,
+            "scope": 1481,
             "src": "331:37:3",
             "stateVariable": true,
             "storageLocation": "default",
@@ -1178,7 +1178,7 @@
               "typeString": "bool"
             },
             "typeName": {
-              "id": 1423,
+              "id": 1417,
               "name": "bool",
               "nodeType": "ElementaryTypeName",
               "src": "331:4:3",
@@ -1189,7 +1189,7 @@
             },
             "value": {
               "hexValue": "66616c7365",
-              "id": 1424,
+              "id": 1418,
               "isConstant": false,
               "isLValue": false,
               "isPure": true,
@@ -1208,17 +1208,17 @@
           {
             "anonymous": false,
             "documentation": {
-              "id": 1426,
+              "id": 1420,
               "nodeType": "StructuredDocumentation",
               "src": "375:53:3",
               "text": " @dev Emitted during finish minting"
             },
-            "id": 1428,
+            "id": 1422,
             "name": "MintFinished",
             "nameLocation": "439:12:3",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 1427,
+              "id": 1421,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "451:2:3"
@@ -1227,7 +1227,7 @@
           },
           {
             "body": {
-              "id": 1438,
+              "id": 1432,
               "nodeType": "Block",
               "src": "558:92:3",
               "statements": [
@@ -1235,7 +1235,7 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1433,
+                        "id": 1427,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1245,11 +1245,11 @@
                         "prefix": true,
                         "src": "576:17:3",
                         "subExpression": {
-                          "id": 1432,
+                          "id": 1426,
                           "name": "_mintingFinished",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1425,
+                          "referencedDeclaration": 1419,
                           "src": "577:16:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_bool",
@@ -1263,7 +1263,7 @@
                       },
                       {
                         "hexValue": "45524332304d696e7461626c653a206d696e74696e672069732066696e6973686564",
-                        "id": 1434,
+                        "id": 1428,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -1289,7 +1289,7 @@
                           "typeString": "literal_string \"ERC20Mintable: minting is finished\""
                         }
                       ],
-                      "id": 1431,
+                      "id": 1425,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -1303,7 +1303,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 1435,
+                    "id": 1429,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1318,29 +1318,29 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1436,
+                  "id": 1430,
                   "nodeType": "ExpressionStatement",
                   "src": "568:64:3"
                 },
                 {
-                  "id": 1437,
+                  "id": 1431,
                   "nodeType": "PlaceholderStatement",
                   "src": "642:1:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1429,
+              "id": 1423,
               "nodeType": "StructuredDocumentation",
               "src": "460:74:3",
               "text": " @dev Tokens can be minted only before minting finished."
             },
-            "id": 1439,
+            "id": 1433,
             "name": "canMint",
             "nameLocation": "548:7:3",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 1430,
+              "id": 1424,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "555:2:3"
@@ -1351,38 +1351,38 @@
           },
           {
             "body": {
-              "id": 1447,
+              "id": 1441,
               "nodeType": "Block",
               "src": "772:40:3",
               "statements": [
                 {
                   "expression": {
-                    "id": 1445,
+                    "id": 1439,
                     "name": "_mintingFinished",
                     "nodeType": "Identifier",
                     "overloadedDeclarations": [],
-                    "referencedDeclaration": 1425,
+                    "referencedDeclaration": 1419,
                     "src": "789:16:3",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
                     }
                   },
-                  "functionReturnParameters": 1444,
-                  "id": 1446,
+                  "functionReturnParameters": 1438,
+                  "id": 1440,
                   "nodeType": "Return",
                   "src": "782:23:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1440,
+              "id": 1434,
               "nodeType": "StructuredDocumentation",
               "src": "656:57:3",
               "text": " @return if minting is finished or not."
             },
             "functionSelector": "05d2035b",
-            "id": 1448,
+            "id": 1442,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -1390,23 +1390,23 @@
             "nameLocation": "727:15:3",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1441,
+              "id": 1435,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "742:2:3"
             },
             "returnParameters": {
-              "id": 1444,
+              "id": 1438,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1443,
+                  "id": 1437,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1448,
+                  "scope": 1442,
                   "src": "766:4:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1415,7 +1415,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 1442,
+                    "id": 1436,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "766:4:3",
@@ -1429,7 +1429,7 @@
               ],
               "src": "765:6:3"
             },
-            "scope": 1487,
+            "scope": 1481,
             "src": "718:94:3",
             "stateMutability": "view",
             "virtual": false,
@@ -1437,7 +1437,7 @@
           },
           {
             "body": {
-              "id": 1463,
+              "id": 1457,
               "nodeType": "Block",
               "src": "1176:39:3",
               "statements": [
@@ -1445,11 +1445,11 @@
                   "expression": {
                     "arguments": [
                       {
-                        "id": 1459,
+                        "id": 1453,
                         "name": "account",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1451,
+                        "referencedDeclaration": 1445,
                         "src": "1192:7:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
@@ -1457,11 +1457,11 @@
                         }
                       },
                       {
-                        "id": 1460,
+                        "id": 1454,
                         "name": "amount",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 1453,
+                        "referencedDeclaration": 1447,
                         "src": "1201:6:3",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -1480,18 +1480,18 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 1458,
+                      "id": 1452,
                       "name": "_mint",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2240,
+                      "referencedDeclaration": 2234,
                       "src": "1186:5:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_$_t_uint256_$returns$__$",
                         "typeString": "function (address,uint256)"
                       }
                     },
-                    "id": 1461,
+                    "id": 1455,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1506,31 +1506,31 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1462,
+                  "id": 1456,
                   "nodeType": "ExpressionStatement",
                   "src": "1186:22:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1449,
+              "id": 1443,
               "nodeType": "StructuredDocumentation",
               "src": "818:291:3",
               "text": " @dev Function to mint tokens.\n WARNING: it allows everyone to mint new tokens. Access controls MUST be defined in derived contracts.\n @param account The address that will receive the minted tokens\n @param amount The amount of tokens to mint"
             },
             "functionSelector": "40c10f19",
-            "id": 1464,
+            "id": 1458,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
-                "id": 1456,
+                "id": 1450,
                 "kind": "modifierInvocation",
                 "modifierName": {
-                  "id": 1455,
+                  "id": 1449,
                   "name": "canMint",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1439,
+                  "referencedDeclaration": 1433,
                   "src": "1168:7:3"
                 },
                 "nodeType": "ModifierInvocation",
@@ -1541,17 +1541,17 @@
             "nameLocation": "1123:4:3",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1454,
+              "id": 1448,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1451,
+                  "id": 1445,
                   "mutability": "mutable",
                   "name": "account",
                   "nameLocation": "1136:7:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1464,
+                  "scope": 1458,
                   "src": "1128:15:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1560,7 +1560,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 1450,
+                    "id": 1444,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1128:7:3",
@@ -1574,12 +1574,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 1453,
+                  "id": 1447,
                   "mutability": "mutable",
                   "name": "amount",
                   "nameLocation": "1153:6:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1464,
+                  "scope": 1458,
                   "src": "1145:14:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1588,7 +1588,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1452,
+                    "id": 1446,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1145:7:3",
@@ -1603,12 +1603,12 @@
               "src": "1127:33:3"
             },
             "returnParameters": {
-              "id": 1457,
+              "id": 1451,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1176:0:3"
             },
-            "scope": 1487,
+            "scope": 1481,
             "src": "1114:101:3",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -1616,7 +1616,7 @@
           },
           {
             "body": {
-              "id": 1473,
+              "id": 1467,
               "nodeType": "Block",
               "src": "1441:33:3",
               "statements": [
@@ -1625,18 +1625,18 @@
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
-                      "id": 1470,
+                      "id": 1464,
                       "name": "_finishMinting",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1486,
+                      "referencedDeclaration": 1480,
                       "src": "1451:14:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$__$returns$__$",
                         "typeString": "function ()"
                       }
                     },
-                    "id": 1471,
+                    "id": 1465,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1651,31 +1651,31 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1472,
+                  "id": 1466,
                   "nodeType": "ExpressionStatement",
                   "src": "1451:16:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1465,
+              "id": 1459,
               "nodeType": "StructuredDocumentation",
               "src": "1221:175:3",
               "text": " @dev Function to stop minting new tokens.\n WARNING: it allows everyone to finish minting. Access controls MUST be defined in derived contracts."
             },
             "functionSelector": "7d64bcb4",
-            "id": 1474,
+            "id": 1468,
             "implemented": true,
             "kind": "function",
             "modifiers": [
               {
-                "id": 1468,
+                "id": 1462,
                 "kind": "modifierInvocation",
                 "modifierName": {
-                  "id": 1467,
+                  "id": 1461,
                   "name": "canMint",
                   "nodeType": "IdentifierPath",
-                  "referencedDeclaration": 1439,
+                  "referencedDeclaration": 1433,
                   "src": "1433:7:3"
                 },
                 "nodeType": "ModifierInvocation",
@@ -1686,18 +1686,18 @@
             "nameLocation": "1410:13:3",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1466,
+              "id": 1460,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1423:2:3"
             },
             "returnParameters": {
-              "id": 1469,
+              "id": 1463,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1441:0:3"
             },
-            "scope": 1487,
+            "scope": 1481,
             "src": "1401:73:3",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -1705,23 +1705,23 @@
           },
           {
             "body": {
-              "id": 1485,
+              "id": 1479,
               "nodeType": "Block",
               "src": "1588:70:3",
               "statements": [
                 {
                   "expression": {
-                    "id": 1480,
+                    "id": 1474,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 1478,
+                      "id": 1472,
                       "name": "_mintingFinished",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1425,
+                      "referencedDeclaration": 1419,
                       "src": "1598:16:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_bool",
@@ -1732,7 +1732,7 @@
                     "operator": "=",
                     "rightHandSide": {
                       "hexValue": "74727565",
-                      "id": 1479,
+                      "id": 1473,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": true,
@@ -1752,7 +1752,7 @@
                       "typeString": "bool"
                     }
                   },
-                  "id": 1481,
+                  "id": 1475,
                   "nodeType": "ExpressionStatement",
                   "src": "1598:23:3"
                 },
@@ -1761,18 +1761,18 @@
                     "arguments": [],
                     "expression": {
                       "argumentTypes": [],
-                      "id": 1482,
+                      "id": 1476,
                       "name": "MintFinished",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 1428,
+                      "referencedDeclaration": 1422,
                       "src": "1637:12:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_event_nonpayable$__$returns$__$",
                         "typeString": "function ()"
                       }
                     },
-                    "id": 1483,
+                    "id": 1477,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1787,19 +1787,19 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 1484,
+                  "id": 1478,
                   "nodeType": "EmitStatement",
                   "src": "1632:19:3"
                 }
               ]
             },
             "documentation": {
-              "id": 1475,
+              "id": 1469,
               "nodeType": "StructuredDocumentation",
               "src": "1480:60:3",
               "text": " @dev Function to stop minting new tokens."
             },
-            "id": 1486,
+            "id": 1480,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -1807,25 +1807,25 @@
             "nameLocation": "1554:14:3",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1476,
+              "id": 1470,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1568:2:3"
             },
             "returnParameters": {
-              "id": 1477,
+              "id": 1471,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "1588:0:3"
             },
-            "scope": 1487,
+            "scope": 1481,
             "src": "1545:113:3",
             "stateMutability": "nonpayable",
             "virtual": true,
             "visibility": "internal"
           }
         ],
-        "scope": 1488,
+        "scope": 1482,
         "src": "243:1417:3",
         "usedErrors": []
       }
@@ -1838,7 +1838,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.1",
-  "updatedAt": "2022-05-15T01:42:45.263Z",
+  "updatedAt": "2022-05-15T04:25:42.786Z",
   "devdoc": {
     "details": "Implementation of the ERC20Mintable. Extension of {ERC20} that adds a minting behaviour.",
     "events": {

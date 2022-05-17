@@ -48,7 +48,7 @@ contract BeehiveV1 is Ownable {
   function harvestHoney(address tokenAddress) external {
     IERC20Metadata token = IERC20Metadata(tokenAddress);
     uint256 honey = token.balanceOf(address(this));
-    token.transfer(honeyJar, honey);
+    require(token.transfer(honeyJar, honey));
     emit honeySent(token.name(), honey, block.timestamp);
   }
 
