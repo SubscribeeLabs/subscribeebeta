@@ -3,8 +3,9 @@ pragma solidity ^0.8.8;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract SubscribeeV1 is Ownable{
+contract SubscribeeV1 is Ownable, ReentrancyGuard{
 
   uint8 public nextPlanId;
   string public title;
@@ -146,7 +147,7 @@ contract SubscribeeV1 is Ownable{
     return subscriberLists[planId];
   }
 
-  function multiPay(UserObject[] memory users) external onlyOperatorOrOwner{
+  function multiPay(UserObject[] memory users) external onlyOperatorOrOwner nonReentrant{
     for(uint i = 0; i < users.length; i++){
       address subscriber = users[i].subscriber;
       uint8 planId = users[i].planId;
