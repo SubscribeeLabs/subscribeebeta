@@ -4,11 +4,12 @@ pragma solidity ^0.8.8;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 import "./dependencies/MintableERC20.sol";
 import "./interfaces/IUniswapV2Pair.sol";
 
-contract HoneyJar is ERC20Capped, ERC20Mintable, ERC20Burnable, Ownable {
+contract HoneyJar is ERC20Capped, ERC20Mintable, ERC20Burnable, Ownable, ReentrancyGuard {
 
     mapping (address => bool) approvedPool;
     uint256 public liquidateFee;
@@ -32,7 +33,7 @@ contract HoneyJar is ERC20Capped, ERC20Mintable, ERC20Burnable, Ownable {
         return token.balanceOf(address(this));
     }
 
-    function liquidateTokens(address poolAddress, uint256 amount) public{
+    function liquidateTokens(address poolAddress, uint256 amount) public nonReentrant{
       require(approvedPool[poolAddress] == true, 'Must be Approved Pool!');
       require(ableToLiquidate, 'Liquidation Feature Currently Shutdown');
       require(balanceOf(msg.sender) >= amount, 'you must have enough HTOK to redeem for tokens');

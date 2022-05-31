@@ -200,8 +200,8 @@ contract SubscribeeV1 is Ownable, ReentrancyGuard{
     );
 
     // send to Contract Owner & BeeHive
-    token.transferFrom(subscriber, owner(), pollen);
-    token.transferFrom(subscriber, beehive, nectar);
+    require(token.transferFrom(subscriber, owner(), pollen));
+    require(token.transferFrom(subscriber, beehive, nectar));
 
     // set next payment
     subscription.nextPayment = subscription.nextPayment + plan.frequency;
@@ -227,8 +227,8 @@ contract SubscribeeV1 is Ownable, ReentrancyGuard{
     uint pollen = plan.amount - nectar;
 
     // send to Contract Owner & BeeHive
-    token.transferFrom(msg.sender, owner(), pollen);
-    token.transferFrom(msg.sender, beehive, nectar);
+    require(token.transferFrom(msg.sender, owner(), pollen));
+    require(token.transferFrom(msg.sender, beehive, nectar));
 
     subscriberLists[planId].push(msg.sender);
 
