@@ -195,7 +195,7 @@ contract SubscribeeBeta is Ownable, ReentrancyGuard{
       'Subscriber has insufficent funds; delete subscription'
     );
 
-    // send to Contract Owner & BeeHive
+    // send to Contract Owner
     require(token.transferFrom(subscriber, owner(), plan.amount));
 
     // set next payment
@@ -219,7 +219,7 @@ contract SubscribeeBeta is Ownable, ReentrancyGuard{
     // set token and fee
     IERC20 token = IERC20(plan.token);
 
-    // send to Contract Owner & BeeHive
+    // send to Contract Owner
     require(token.transferFrom(msg.sender, owner(), plan.amount));
 
     subscriberLists[planId].push(msg.sender);
