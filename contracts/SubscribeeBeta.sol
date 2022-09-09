@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract SubscribeeV1 is Ownable, ReentrancyGuard{
+contract SubscribeeBeta is Ownable, ReentrancyGuard{
 
   uint8 public nextPlanId;
   string public title;
@@ -15,7 +15,6 @@ contract SubscribeeV1 is Ownable, ReentrancyGuard{
   mapping(uint8 => Plan) public plans;
   mapping(uint8 => mapping(address => Subscription)) public subscriptions;
 
-  address public beehive;
   address public operator;
 
   // Structs
@@ -80,8 +79,7 @@ contract SubscribeeV1 is Ownable, ReentrancyGuard{
 
   // Constructor
 
-  constructor(address beehiveAddress, address operatorAddress, string memory newTitle, string memory newImage) {
-    beehive = beehiveAddress;
+  constructor(address operatorAddress, string memory newTitle, string memory newImage) {
     operator = operatorAddress;
     title = newTitle;
     image = newImage;
@@ -170,8 +168,6 @@ contract SubscribeeV1 is Ownable, ReentrancyGuard{
     Subscription storage subscription = subscriptions[planId][subscriber];
     Plan storage plan = plans[planId];
     IERC20 token = IERC20(plan.token);
-    uint256 nectar = plan.amount / 50;
-    uint256 pollen = plan.amount - nectar;
 
     // conditionals
     require(
@@ -200,8 +196,7 @@ contract SubscribeeV1 is Ownable, ReentrancyGuard{
     );
 
     // send to Contract Owner & BeeHive
-    require(token.transferFrom(subscriber, owner(), pollen));
-    require(token.transferFrom(subscriber, beehive, nectar));
+    require(token.transferFrom(subscriber, owner(), plan.amount));
 
     // set next payment
     subscription.nextPayment = subscription.nextPayment + plan.frequency;
@@ -223,12 +218,9 @@ contract SubscribeeV1 is Ownable, ReentrancyGuard{
 
     // set token and fee
     IERC20 token = IERC20(plan.token);
-    uint nectar = plan.amount / 50;
-    uint pollen = plan.amount - nectar;
 
     // send to Contract Owner & BeeHive
-    require(token.transferFrom(msg.sender, owner(), pollen));
-    require(token.transferFrom(msg.sender, beehive, nectar));
+    require(token.transferFrom(msg.sender, owner(), plan.amount));
 
     subscriberLists[planId].push(msg.sender);
 
